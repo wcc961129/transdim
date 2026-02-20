@@ -257,7 +257,7 @@ def LRTC(dense_tensor, sparse_tensor, alpha, rho, theta, epsilon, maxiter):
     while True:
         rho = min(rho * 1.05, 1e5)
         for k in range(len(dim)):
-            X[k] = mat2ten(svt_tnn(ten2mat(Z - T[k] / rho, k), alpha[k] / rho, np.int(np.ceil(theta * dim[k]))), dim, k)
+            X[k] = mat2ten(svt_tnn(ten2mat(Z - T[k] / rho, k), alpha[k] / rho, int(np.ceil(theta * dim[k]))), dim, k)
         Z[pos_missing] = np.mean(X + T / rho, axis = 0)[pos_missing]
         T = T + rho * (X - np.broadcast_to(Z, np.insert(dim, 0, len(dim))))
         tensor_hat = np.einsum('k, kmnt -> mnt', alpha, X)
